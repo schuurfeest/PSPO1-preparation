@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSPO1 Preparation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .quiz-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .question-header {
+            background-color: #007acc;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .question-number {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .question-text {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .options {
+            margin: 20px 0;
+        }
+        
+        .option {
+            margin: 10px 0;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            border-color: #007acc;
+            background-color: #f0f8ff;
+        }
+        
+        .option.selected {
+            border-color: #007acc;
+            background-color: #e6f3ff;
+        }
+        
+        .option.correct {
+            border-color: #28a745;
+            background-color: #d4edda;
+        }
+        
+        .option.incorrect {
+            border-color: #dc3545;
+            background-color: #f8d7da;
+        }
+        
+        .option input[type="radio"] {
+            margin-right: 10px;
+        }
+        
+        .buttons {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: #007acc;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #005a9e;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+        
+        .btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .feedback.correct {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .feedback.incorrect {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        .progress {
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            height: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            background-color: #007acc;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
+        .stats {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #666;
+        }
+        
+        .quiz-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #007acc;
+            font-size: 28px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1 class="quiz-title">PSPO1 Preparation</h1>
+        
+        <div class="stats">
+            <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <span id="questionCounter">Question 1 of 50</span>
+        </div>
+        
+        <div class="question-header">
+            <div class="question-number" id="questionNumber">Question 1</div>
+            <div class="question-text" id="questionText">Question is loading...</div>
+        </div>
+        
+        <div class="options" id="optionsContainer">
+            <!-- Options will be dynamically added here -->
+        </div>
+        
+        <div class="feedback" id="feedback">
+            <!-- Feedback will be shown here -->
+        </div>
+        
+        <div class="buttons">
+            <button class="btn btn-primary" id="submitBtn" onclick="submitAnswer()">Submit Answer</button>
+            <button class="btn btn-secondary" id="nextBtn" onclick="nextQuestion()" style="display: none;">Next Question</button>
+        </div>
+    </div>
+
+    <script>
+        // Quiz data - extracted from the markdown file
+        const quizData = [
+            {
+                question: "A Scrum Team has been working on a product for 9 Sprints. A new Product Owner who is new to Scrum joins the team and understands she is accountable for the Product Backlog. However, she is unsure about the purpose of the Product Backlog. She has read that the Product Backlog should be a list of all user features for the product. She goes to the Scrum Master asking where to put the other types of requirements that are going to be taken into account. Are all of the following types of requirements acceptable on a Product Backlog? Stability requirements. Performance requirements. Product Functionality. Documentation. Fixes.",
+                options: [
+                    "Yes, they all belong on the Product Backlog. Product Backlog is supposed to be the Single Source of Truth for all the work for the product.",
+                    "No, Product Backlog is a tool for the Product Owner. The Product Owner represents the users and stakeholders. Other types of requirements should be managed separately by the Developers. They are not the Product Owner's concern."
+                ],
+                correct: 0
+            },
+            {
+                question: "What variables should a Product Owner consider when ordering the Product Backlog?",
+                options: [
+                    "Development cohesion as indicated by the Developers.",
+                    "The availability of resources and skills for implementation.",
+                    "Lowest development cost in order to maximize Return on Investment (ROI).",
+                    "Effort first, then value.",
+                    "Anything that informs them to achieve the product's goals and to optimize the value delivered."
+                ],
+                correct: 4
+            },
+            {
+                question: "It is mandatory for the Product Owner to monitor and share progress of the Product Backlog by using which method?",
+                options: [
+                    "A Product or Release burn-down chart.",
+                    "A Value burn-up chart.",
+                    "A Gantt Chart.",
+                    "Any practice based on trends of work completed and upcoming work.",
+                    "A Sprint Review acceptance report."
+                ],
+                correct: 3
+            },
+            {
+                question: "The Product Owner manages the Product Backlog. Who is accountable for estimating the effort to complete the Product Backlog Items?",
+                options: [
+                    "The Developers.",
+                    "The PMO.",
+                    "The Product Owner."
+                ],
+                correct: 0
+            },
+            {
+                question: "True or False: The Sprint Review is the only time at which stakeholder feedback is taken into account.",
+                options: [
+                    "True.",
+                    "False."
+                ],
+                correct: 1
+            },
+            {
+                question: "How do timeboxes help the Product Owner and the other members of the Scrum Team validate assumptions, adapt, and maximize the value of their product?",
+                options: [
+                    "Timeboxes help by making sure a Sprint does not stop until all testing is done, and the work is verified by the Product Owner.",
+                    "Timeboxes assure the Product Owner that the Developers will finish all work on the Sprint Backlog by the end of the Sprint.",
+                    "Timeboxes help minimize risk by creating the opportunity to validate assumptions using feedback from users and the market; allowing Scrum Teams to inspect progress toward the Product Goal and decide whether to pivot or persevere.",
+                    "At the end of each Sprint when the timebox expires a detailed report with all test cases and test results is available."
+                ],
+                correct: 2
+            },
+            {
+                question: "True or False: The value delivered by a product can only be determined by revenue.",
+                options: [
+                    "True.",
+                    "False."
+                ],
+                correct: 1
+            },
+            {
+                question: "True or False: The Scrum Team must choose at least one high priority process improvement item, identified during the Sprint Retrospective, and place it in the Sprint Backlog.",
+                options: [
+                    "True.",
+                    "False."
+                ],
+                correct: 1
+            },
+            {
+                question: "How important is it for a Product Owner to order Product Backlog Items by using value points?",
+                options: [
+                    "Calculating value points is a predictive approach that conflicts with the empiricism of Scrum, and is therefore not acceptable.",
+                    "Using value points is the ultimate way for a Product Owner to predict the value that the product will provide.",
+                    "The Product Owner may order the Product Backlog by using value points or select another technique, the decision is up to them."
+                ],
+                correct: 2
+            },
+            {
+                question: "When can the Product Backlog be updated?",
+                options: [
+                    "Never, unless agreed to by the change request.",
+                    "At any time when done by the Product Owner or a delegate.",
+                    "Only after a Sprint Review if agreed to by the stakeholders.",
+                    "Only during Product Backlog Refinement sessions if the Product Owner is present."
+                ],
+                correct: 1
+            },
+            {
+                question: "True or False: The Product Owner should have the entire Product Backlog documented in detail before the first Sprint can start?",
+                options: [
+                    "True.",
+                    "False."
+                ],
+                correct: 1
+            },
+            {
+                question: "True or False: The Sprint Backlog is a result of Sprint Planning, and it includes the Sprint Goal.",
+                options: [
+                    "True.",
+                    "False."
+                ],
+                correct: 0
+            },
+            {
+                question: "Who is accountable for creating a valuable and usable Increment each Sprint?",
+                options: [
+                    "The Scrum Master.",
+                    "The CEO.",
+                    "The Developers.",
+                    "The Scrum Team.",
+                    "The Product Owner."
+                ],
+                correct: 3
+            },
+            {
+                question: "What are two effective ways for the Scrum Team to make non-functional requirements visible? (choose the best two answers)",
+                options: [
+                    "Run the integration and regression tests before the end of the Sprint, and capture the open work for the Sprint Backlog of the next Sprint.",
+                    "Add them to the Product Backlog to ensure transparency.",
+                    "Put them on a separate list on the Scrum board, available for all to see.",
+                    "Add them to the Definition of Done so the work is taken care of every Sprint."
+                ],
+                correct: [1, 3], // Multiple correct answers
+                multipleChoice: true
+            },
+            {
+                question: "The Cone of Uncertainty can be used to do what?",
+                options: [
+                    "Determine the length of the next Sprint.",
+                    "Determine the cost of a project before it begins.",
+                    "Determine whether to cut quality, similar to the Iron Triangle of project management.",
+                    "Illustrate that as a project forecast lengthens, it is increasingly less certain."
+                ],
+                correct: 3
+            },
+            {
+                question: "Which is NOT a valid consideration when ordering a Product Backlog?",
+                options: [
+                    "Risk.",
+                    "Tools and techniques.",
+                    "Importance to customers.",
+                    "Alignment with business strategy and goals.",
+                    "Dependencies on other Product Backlog Items."
+                ],
+                correct: 1
+            },
+            {
+                question: "True or False: The Product Owner must write all of the Product Backlog Items (e.g. user stories, requirements, etc.) on the Product Backlog before handing them over to the Scrum Team.",
+                options: [
+                    "True.",
+                    "False."
+                ],
+                correct: 1
+            },
+            {
+                question: "Which of the following are criteria to order Product Backlog Items? (choose all that apply)",
+                options: [
+                    "Value of Product Backlog Items.",
+                    "Dependencies between Product Backlog Items.",
+                    "Dependencies to other products.",
+                    "The availability of the Scrum Master.",
+                    "All of the above."
+                ],
+                correct: [0, 1, 2], // Multiple correct answers
+                multipleChoice: true
+            },
+            {
+                question: "All Scrum artifacts must be transparent to ensure sufficient accuracy of inspection. Which two measures ensure that the Product Backlog is transparent? (choose the best two answers)",
+                options: [
+                    "The Product Backlog is managed using a web-based tool.",
+                    "The Product Backlog is available to all stakeholders.",
+                    "The Product Backlog is ordered.",
+                    "Each Product Backlog Item has a MoSCoW priority.",
+                    "The Product Backlog only has work for the next 2 Sprints."
+                ],
+                correct: [1, 2], // Multiple correct answers
+                multipleChoice: true
+            },
+            {
+                question: "Why is it important that there is only one Product Owner per product? (choose the best three answers)",
+                options: [
+                    "The Scrum Team always knows who determines the order of the Product Backlog.",
+                    "The Scrum Master knows who acts as their backup while on vacation.",
+                    "It is clear who is accountable for the ultimate value of the product.",
+                    "It would confuse the stakeholders if they had to work with more than one person.",
+                    "It helps avoid barriers to effective communication and rapid decision-making."
+                ],
+                correct: [2, 3, 4], // Multiple correct answers
+                multipleChoice: true
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let shuffledQuestions = [];
+        let userAnswers = [];
+        let answered = false;
+
+        // Shuffle array function
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Initialize quiz
+        function initQuiz() {
+            shuffledQuestions = shuffleArray(quizData);
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            answered = false;
+            displayQuestion();
+        }
+
+        // Display current question
+        function displayQuestion() {
+            const question = shuffledQuestions[currentQuestionIndex];
+            const questionNumber = currentQuestionIndex + 1;
+            const totalQuestions = shuffledQuestions.length;
+
+            // Update progress
+            const progress = (questionNumber / totalQuestions) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('questionCounter').textContent = `Question ${questionNumber} of ${totalQuestions}`;
+            document.getElementById('questionNumber').textContent = `Question ${questionNumber}`;
+            document.getElementById('questionText').textContent = question.question;
+
+            // Clear previous options
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            // Add options
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                optionDiv.onclick = () => selectOption(index);
+
+                const inputType = question.multipleChoice ? 'checkbox' : 'radio';
+                optionDiv.innerHTML = `
+                    <input type="${inputType}" name="answer" value="${index}" id="option${index}">
+                    <label for="option${index}">${option}</label>
+                `;
+
+                optionsContainer.appendChild(optionDiv);
+            });
+
+            // Reset buttons and feedback
+            document.getElementById('submitBtn').style.display = 'inline-block';
+            document.getElementById('nextBtn').style.display = 'none';
+            document.getElementById('feedback').style.display = 'none';
+            answered = false;
+        }
+
+        // Select option
+        function selectOption(index) {
+            if (answered) return;
+
+            const question = shuffledQuestions[currentQuestionIndex];
+            const options = document.querySelectorAll('.option');
+            
+            if (question.multipleChoice) {
+                // For multiple choice, toggle selection
+                const checkbox = document.getElementById(`option${index}`);
+                checkbox.checked = !checkbox.checked;
+                options[index].classList.toggle('selected');
+            } else {
+                // For single choice, clear all and select one
+                options.forEach(opt => opt.classList.remove('selected'));
+                options[index].classList.add('selected');
+                
+                // Update radio button
+                document.getElementById(`option${index}`).checked = true;
+            }
+        }
+
+        // Submit answer
+        function submitAnswer() {
+            if (answered) return;
+
+            const question = shuffledQuestions[currentQuestionIndex];
+            const selectedOptions = [];
+            
+            // Get selected options
+            document.querySelectorAll('input[name="answer"]:checked').forEach(input => {
+                selectedOptions.push(parseInt(input.value));
+            });
+
+            if (selectedOptions.length === 0) {
+                alert('Please select an answer first!');
+                return;
+            }
+
+            answered = true;
+            userAnswers[currentQuestionIndex] = selectedOptions;
+
+            // Check if answer is correct
+            let isCorrect = false;
+            if (question.multipleChoice) {
+                // For multiple choice, check if arrays are equal
+                isCorrect = arraysEqual(selectedOptions.sort(), question.correct.sort());
+            } else {
+                // For single choice
+                isCorrect = selectedOptions[0] === question.correct;
+            }
+
+            // Show feedback
+            const feedback = document.getElementById('feedback');
+            feedback.style.display = 'block';
+            
+            if (isCorrect) {
+                feedback.className = 'feedback correct';
+                feedback.textContent = 'Correct! Well done.';
+            } else {
+                feedback.className = 'feedback incorrect';
+                const correctAnswers = question.multipleChoice ? 
+                    question.correct.map(i => question.options[i]).join(', ') :
+                    question.options[question.correct];
+                feedback.textContent = `Incorrect. The correct answer is: ${correctAnswers}`;
+            }
+
+            // Highlight correct and incorrect answers
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                const isSelected = selectedOptions.includes(index);
+                const isCorrectAnswer = question.multipleChoice ? 
+                    question.correct.includes(index) : 
+                    index === question.correct;
+
+                if (isCorrectAnswer) {
+                    option.classList.add('correct');
+                } else if (isSelected && !isCorrectAnswer) {
+                    option.classList.add('incorrect');
+                }
+            });
+
+            // Update buttons
+            document.getElementById('submitBtn').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'inline-block';
+        }
+
+        // Next question
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex >= shuffledQuestions.length) {
+                showResults();
+            } else {
+                displayQuestion();
+            }
+        }
+
+        // Show final results
+        function showResults() {
+            let correctCount = 0;
+            
+            shuffledQuestions.forEach((question, index) => {
+                const userAnswer = userAnswers[index] || [];
+                let isCorrect = false;
+                
+                if (question.multipleChoice) {
+                    isCorrect = arraysEqual(userAnswer.sort(), question.correct.sort());
+                } else {
+                    isCorrect = userAnswer[0] === question.correct;
+                }
+                
+                if (isCorrect) correctCount++;
+            });
+
+            const percentage = Math.round((correctCount / shuffledQuestions.length) * 100);
+            
+            document.querySelector('.quiz-container').innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <h2>Quiz Completed!</h2>
+                    <div style="font-size: 48px; margin: 20px 0; color: #007acc;">${percentage}%</div>
+                    <p style="font-size: 18px; margin-bottom: 30px;">
+                        You answered ${correctCount} out of ${shuffledQuestions.length} questions correctly.
+                    </p>
+                    <button class="btn btn-primary" onclick="location.reload()">Start Over</button>
+                </div>
+            `;
+        }
+
+        // Helper function to compare arrays
+        function arraysEqual(a, b) {
+            return a.length === b.length && a.every((val, index) => val === b[index]);
+        }
+
+        // Start the quiz when page loads
+        window.onload = initQuiz;
+    </script>
+</body>
+</html>
