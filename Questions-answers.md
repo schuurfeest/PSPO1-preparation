@@ -1,4 +1,12 @@
 
+### It is mandatory for the Product Owner to monitor and share progress of the Product Backlog by using which method? (choose the best answer)
+
+- [ ] A Product or Release burn-down chart.
+- [ ] A Value burn-up chart.
+- [ ] A Gantt Chart.
+- [x] Any practice based on trends of work completed and upcoming work.
+- [ ] A Sprint Review acceptance report.
+
 ### A Scrum Team has been working on a product for 9 Sprints. A new Product Owner who is new to Scrum joins the team and understands she is accountable for the Product Backlog. However, she is unsure about the purpose of the Product Backlog. She has read that the Product Backlog should be a list of all user features for the product. She goes to the Scrum Master asking where to put the other types of requirements that are going to be taken into account. Are all of the following types of requirements acceptable on a Product Backlog? Stability requirements. Performance requirements. Product Functionality. Documentation. Fixes. (choose the best answer)
 
 - [x] Yes, they all belong on the Product Backlog. Product Backlog is supposed to be the Single Source of Truth for all the work for the product.
@@ -11,14 +19,6 @@
 - [ ] Lowest development cost in order to maximize Return on Investment (ROI).
 - [ ] Effort first, then value.
 - [x] Anything that informs them to achieve the product's goals and to optimize the value delivered.
-
-### It is mandatory for the Product Owner to monitor and share progress of the Product Backlog by using which method? (choose the best answer)
-
-- [ ] A Product or Release burn-down chart.
-- [ ] A Value burn-up chart.
-- [ ] A Gantt Chart.
-- [x] Any practice based on trends of work completed and upcoming work.
-- [ ] A Sprint Review acceptance report.
 
 ### The Product Owner manages the Product Backlog. Who is accountable for estimating the effort to complete the Product Backlog Items? (choose the best answer)
 
